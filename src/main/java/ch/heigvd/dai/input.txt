@@ -1,0 +1,5 @@
+Ceci
+est un
+
+Texte de test, pour tester
+ma class fileReader !
