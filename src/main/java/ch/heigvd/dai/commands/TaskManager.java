@@ -8,6 +8,7 @@ import ch.heigvd.dai.util.fileWriter;
 import ch.heigvd.dai.util.fileReader;
 import ch.heigvd.dai.util.Task;
 import ch.heigvd.dai.util.SubTask;
+import ch.heigvd.dai.util.Status;
 
 import java.util.concurrent.Callable;
 
@@ -27,15 +28,20 @@ public class TaskManager {
         @CommandLine.Option(names = {"-d", "--description"}, description = "Description of the task")
         private String description;
 
+        @CommandLine.Option(names = {"-s", "--status"}, description = "Status of the task")
+        private Status state;
+
         @Override
         public Integer call() {
             Task task;
             if(title == null)
                 task = new Task();
-            else if(description == null)
+            else if(description == null && state == null)
                 task = new Task(title);
-            else
+            else if(description != null && state == null)
                 task = new Task(title, description);
+            else
+                task = new Task(title, description, state);
 
             fileWriter fw = new fileWriter();
             fw.writeFile(task, true);
@@ -47,20 +53,20 @@ public class TaskManager {
     // Sous-commande pour afficher toutes les tâches
     @CommandLine.Command(name = "show", description = "Display all created tasks")
     public static class ShowTasks implements Callable<Integer> {
-
         @Override
         public Integer call() {
             fileReader fi = new fileReader();
             Vector<Task> tasks = fi.getAllTask();
+
             if(tasks.isEmpty()) {
                 System.err.println("No task created yet.");
                 return 0;
             }
+
             for(int i = 0; i < tasks.size(); ++i) {
-                System.err.println(tasks.elementAt(i));
+                System.out.println(tasks.elementAt(i)); // Affiche la tâche
                 for (SubTask subTask : tasks.elementAt(i).getSubTasks()) {
-                    // Affiche les sous-tâches, indentées
-                    System.err.println(subTask);
+                    System.out.println(subTask); // Affiche des sous-tâches
                 }
             }
             return 0;
@@ -122,6 +128,9 @@ public class TaskManager {
         @CommandLine.Option(names = {"-d", "--description"}, description = "New description of the task")
         private String description;
 
+        @CommandLine.Option(names = {"-s", "--status"}, description = "Status of the task")
+        private Status state;
+
         @Override
         public Integer call() {
             fileReader fi = new fileReader();
@@ -139,7 +148,7 @@ public class TaskManager {
 
             Task taskToUpdate = tasks.elementAt(id);
 
-            if(title == null && description == null){
+            if(title == null && description == null && state == null){
                 System.out.println("No changes made");
                 return 0;
             }
@@ -149,6 +158,9 @@ public class TaskManager {
 
             if (description != null)
                 taskToUpdate.description = description;
+
+            if(state != null)
+                taskToUpdate.state = state;
 
             fileWriter fo = new fileWriter();
             fo.overwriteTasks(tasks);
