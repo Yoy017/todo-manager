@@ -11,6 +11,9 @@
 *.iml
 *.ipr
 
+# Our own extension
+*.tdm
+
 # Editor-based HTTP Client requests
 .idea/httpRequests/
 
