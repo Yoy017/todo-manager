@@ -11,7 +11,7 @@ public class fileWriter {
         String fileExtension = ".tdm";
         this.filePath = "todoManagerFiles/" + fileName + fileExtension;
     }
-    public void writeFile(Task task, boolean append) {
+    public void writeFile(Task task, boolean append) throws FileNotFoundException {
 
         try (
                 Writer writer = new FileWriter(filePath, StandardCharsets.UTF_8, append);
@@ -29,7 +29,11 @@ public class fileWriter {
                 }
             }
 
+        } catch (FileNotFoundException e) {
+            System.out.println("File " + filePath + " not found");
+            throw new FileNotFoundException();
         } catch (IOException e) {
+            System.out.println("Error when writing" + filePath);
             throw new RuntimeException(e);
         }
     }
@@ -37,7 +41,11 @@ public class fileWriter {
     public void overwriteTasks(Vector<Task> tasks) {
         // Cette méthode réécrit tout le fichier
         for (int i = 0; i < tasks.size(); ++i) {
-            writeFile(tasks.elementAt(i), i != 0); // append = false pour la première tâche, true ensuite
+            try{
+                writeFile(tasks.elementAt(i), i != 0); // append = false pour la première tâche, true ensuite
+            } catch (FileNotFoundException e) {
+                break;
+            }
         }
     }
 }

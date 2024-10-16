@@ -2,6 +2,7 @@ package ch.heigvd.dai.commands;
 
 import picocli.CommandLine;
 
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Vector;
 import ch.heigvd.dai.util.fileWriter;
@@ -47,8 +48,12 @@ public class TaskManager {
                 task = new Task(title, description, state);
 
             fileWriter fw = new fileWriter(filename);
-            fw.writeFile(task, true);
-            System.out.println("Task successfully created.");
+            try{
+                fw.writeFile(task, true);
+                System.out.println("Task successfully created.");
+            } catch (FileNotFoundException e) {
+                System.out.println("You can only create tasks in an existing file.");
+            }
             return 0;
         }
     }
@@ -68,7 +73,13 @@ public class TaskManager {
         @Override
         public Integer call() {
             fileReader fi = new fileReader(filename);
-            Vector<Task> tasks = fi.getAllTask();
+            Vector<Task> tasks;
+            try{
+                tasks = fi.getAllTask();
+            } catch (FileNotFoundException e) {
+                System.out.println("You can only show tasks in an existing file.");
+                return 1;
+            }
 
             if(tasks.isEmpty()) {
                 System.err.println("No task created yet.");
@@ -100,7 +111,14 @@ public class TaskManager {
         @Override
         public Integer call() {
             fileReader fi = new fileReader(filename);
-            Vector<Task> tasks = fi.getAllTask();
+            Vector<Task> tasks;
+            try{
+                tasks = fi.getAllTask();
+            } catch (FileNotFoundException e) {
+                System.out.println("You can only delete tasks in an existing file.");
+                return 1;
+            }
+
             if(tasks.isEmpty()){
                 System.err.println("No task to delete yet.");
                 return 0;
@@ -154,7 +172,13 @@ public class TaskManager {
         @Override
         public Integer call() {
             fileReader fi = new fileReader(filename);
-            Vector<Task> tasks = fi.getAllTask();
+            Vector<Task> tasks;
+            try{
+                tasks = fi.getAllTask();
+            } catch (FileNotFoundException e) {
+                System.err.println("You can only update tasks in an existing file.");
+                return 1;
+            }
 
             if (tasks.isEmpty()) {
                 System.err.println("No tasks to update.");
@@ -207,7 +231,12 @@ public class TaskManager {
         @Override
         public Integer call() {
             fileReader fr = new fileReader(filename);
-            Vector<Task> tasks = fr.getAllTask();
+            Vector<Task> tasks;
+            try {
+                tasks = fr.getAllTask();
+            } catch (FileNotFoundException e) {
+                return 1;
+            }
 
             if (tasks.isEmpty()) {
                 System.err.println("No tasks created yet.");
