@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class fileReader {
-    private static final String INPUT_FILE_PATH = "src/main/java/ch/heigvd/dai/output.txt";
+    private static final String INPUT_FILE_PATH = "output.txt";
 
     public Vector<Task> getAllTask() {
         Vector<Task> tasks = new Vector<>();
