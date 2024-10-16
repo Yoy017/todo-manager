@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
 
 // Commande principale pour gérer la todo-list
 @CommandLine.Command(
-        name = "task",
+        name = "todo-manager",
         description = "Tasks management commands.\n",
         subcommands = { CommandLine.HelpCommand.class } // Ajoute une commande d'aide intégrée
 )
@@ -22,6 +22,9 @@ public class TaskManager {
     // Sous-commande pour créer une tâche
     @CommandLine.Command(name = "create", description = "Create a new task")
     public static class CreateTask implements Callable<Integer> {
+        @CommandLine.Parameters(index = "0", description = "The name of the file.")
+        protected String filename;
+
         @CommandLine.Option(names = {"-t", "--title"}, description = "Title of the task")
         private String title;
 
@@ -43,7 +46,7 @@ public class TaskManager {
             else
                 task = new Task(title, description, state);
 
-            fileWriter fw = new fileWriter();
+            fileWriter fw = new fileWriter(filename);
             fw.writeFile(task, true);
             System.out.println("Task successfully created.");
             return 0;
@@ -53,12 +56,18 @@ public class TaskManager {
     // Sous-commande pour afficher toutes les tâches
     @CommandLine.Command(name = "show", description = "Display all created tasks")
     public static class ShowTasks implements Callable<Integer> {
+
         @CommandLine.Option(names = {"-s", "--status"}, description = "Select a task by status [PENDING, IN_PROGRESS, DONE]")
         private Status state;
 
+
+        @CommandLine.Parameters(index = "0", description = "The name of the file.")
+        protected String filename;
+
+
         @Override
         public Integer call() {
-            fileReader fi = new fileReader();
+            fileReader fi = new fileReader(filename);
             Vector<Task> tasks = fi.getAllTask();
 
             if(tasks.isEmpty()) {
@@ -82,12 +91,15 @@ public class TaskManager {
     @CommandLine.Command(name = "delete", description = "Delete a specific task")
     public static class deleteTask implements Callable<Integer> {
 
+        @CommandLine.Parameters(index = "0", description = "The name of the file.")
+        protected String filename;
+
         @CommandLine.Option(names = {"-id"}, description = "id of the task", required = true)
         private int id;
 
         @Override
         public Integer call() {
-            fileReader fi = new fileReader();
+            fileReader fi = new fileReader(filename);
             Vector<Task> tasks = fi.getAllTask();
             if(tasks.isEmpty()){
                 System.err.println("No task to delete yet.");
@@ -113,7 +125,7 @@ public class TaskManager {
 
             tasks.remove(id);
 
-            fileWriter fo = new fileWriter();
+            fileWriter fo = new fileWriter(filename);
             fo.overwriteTasks(tasks);
             System.out.println("Task " + id + " successfully deleted.");
             return 0;
@@ -123,6 +135,9 @@ public class TaskManager {
     // Sous-commande pour mettre à jour les informations d'une tâche
     @CommandLine.Command(name = "update", description = "Update a task")
     public static class updateTask implements Callable<Integer> {
+
+        @CommandLine.Parameters(index = "0", description = "The name of the file.")
+        protected String filename;
 
         @CommandLine.Option(names = {"-id"}, description = "ID of the task to update", required = true)
         private int id;
@@ -138,7 +153,7 @@ public class TaskManager {
 
         @Override
         public Integer call() {
-            fileReader fi = new fileReader();
+            fileReader fi = new fileReader(filename);
             Vector<Task> tasks = fi.getAllTask();
 
             if (tasks.isEmpty()) {
@@ -167,7 +182,8 @@ public class TaskManager {
             if(state != null)
                 taskToUpdate.state = state;
 
-            fileWriter fo = new fileWriter();
+            fileWriter fo = new fileWriter(filename);
+
             fo.overwriteTasks(tasks);
 
             System.out.println("Task " + id + " successfully updated.");
@@ -178,6 +194,9 @@ public class TaskManager {
     // Sous-commande pour ajouter une sous-tâche à une tâche existante
     @CommandLine.Command(name = "subtask", description = "Add a subtask to a specific task")
     public static class AddSubTask implements Callable<Integer> {
+        @CommandLine.Parameters(index = "0", description = "The name of the file.")
+        protected String filename;
+
 
         @CommandLine.Option(names = {"-id"}, description = "ID of the parent task", required = true)
         private int parentId;
@@ -187,7 +206,7 @@ public class TaskManager {
 
         @Override
         public Integer call() {
-            fileReader fr = new fileReader();
+            fileReader fr = new fileReader(filename);
             Vector<Task> tasks = fr.getAllTask();
 
             if (tasks.isEmpty()) {
@@ -203,8 +222,8 @@ public class TaskManager {
             Task parentTask = tasks.get(parentId);
             parentTask.addSubTask(new SubTask(title, parentTask.id));
 
-            // Mettre à jour le fichier .txt
-            fileWriter fw = new fileWriter();
+            // Mettre à jour le fichier .tdm
+            fileWriter fw = new fileWriter(filename);
             fw.overwriteTasks(tasks);
 
             System.out.println("Subtask successfully added to task: " + parentTask.name);

@@ -5,11 +5,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 public class fileWriter {
-    private static final String OUTPUT_FILE_PATH = "output.txt";
+    private final String filePath;
 
+    public fileWriter(String fileName) {
+        String fileExtension = ".tdm";
+        this.filePath = "todoManagerFiles/" + fileName + fileExtension;
+    }
     public void writeFile(Task task, boolean append) {
+
         try (
-                Writer writer = new FileWriter(OUTPUT_FILE_PATH, StandardCharsets.UTF_8, append);
+                Writer writer = new FileWriter(filePath, StandardCharsets.UTF_8, append);
                 BufferedWriter bw = new BufferedWriter(writer)
         ) {
             // Écriture de la tâche principale

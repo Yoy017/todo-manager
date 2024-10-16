@@ -8,14 +8,19 @@ import java.util.regex.Pattern;
 import ch.heigvd.dai.util.Status;
 
 public class fileReader {
-    private static final String INPUT_FILE_PATH = "output.txt";
+    private final String filePath;
+
+    public fileReader(String filename) {
+        String fileExtension = ".tdm";
+        this.filePath = "todoManagerFiles/" + filename + fileExtension;
+    }
 
     public Vector<Task> getAllTask() {
         Vector<Task> tasks = new Vector<>();
         Task currentTask = null;
 
         try (
-                Reader fi = new FileReader(INPUT_FILE_PATH, StandardCharsets.UTF_8);
+                Reader fi = new FileReader(filePath, StandardCharsets.UTF_8);
                 BufferedReader br = new BufferedReader(fi)
         ) {
             String line;
