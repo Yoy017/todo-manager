@@ -28,7 +28,7 @@ public class TaskManager {
         @CommandLine.Option(names = {"-d", "--description"}, description = "Description of the task")
         private String description;
 
-        @CommandLine.Option(names = {"-s", "--status"}, description = "Status of the task")
+        @CommandLine.Option(names = {"-s", "--status"}, description = "Select a task by status [PENDING, IN_PROGRESS, DONE]")
         private Status state;
 
         @Override
@@ -53,6 +53,9 @@ public class TaskManager {
     // Sous-commande pour afficher toutes les tâches
     @CommandLine.Command(name = "show", description = "Display all created tasks")
     public static class ShowTasks implements Callable<Integer> {
+        @CommandLine.Option(names = {"-s", "--status"}, description = "Select a task by status [PENDING, IN_PROGRESS, DONE]")
+        private Status state;
+
         @Override
         public Integer call() {
             fileReader fi = new fileReader();
@@ -64,9 +67,11 @@ public class TaskManager {
             }
 
             for(int i = 0; i < tasks.size(); ++i) {
-                System.out.println(tasks.elementAt(i)); // Affiche la tâche
-                for (SubTask subTask : tasks.elementAt(i).getSubTasks()) {
-                    System.out.println(subTask); // Affiche des sous-tâches
+                if(tasks.elementAt(i).state == state || state == null) {
+                    System.out.println(tasks.elementAt(i)); // Affiche la tâche
+                    for (SubTask subTask : tasks.elementAt(i).getSubTasks()) {
+                        System.out.println(subTask); // Affiche des sous-tâches
+                    }
                 }
             }
             return 0;
@@ -88,7 +93,7 @@ public class TaskManager {
                 System.err.println("No task to delete yet.");
                 return 0;
             }
-            if(id < 0 || id > tasks.size()){
+            if(id < 0 || id >= tasks.size()){
                 System.err.println("id is out of bound !");
                 return 0;
             }
@@ -128,7 +133,7 @@ public class TaskManager {
         @CommandLine.Option(names = {"-d", "--description"}, description = "New description of the task")
         private String description;
 
-        @CommandLine.Option(names = {"-s", "--status"}, description = "Status of the task")
+        @CommandLine.Option(names = {"-s", "--status"}, description = "Select a task by status [PENDING, IN_PROGRESS, DONE]")
         private Status state;
 
         @Override

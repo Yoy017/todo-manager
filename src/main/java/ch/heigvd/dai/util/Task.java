@@ -9,11 +9,10 @@ public class Task {
 
     public String name, description;
     public Vector<SubTask> sub_tasks; // Liste des sous-tâches
-    public Status state;
+    public Status state = Status.IN_PROGRESS;
 
     public Task(){
         this.name = ("<untilted_" + id + ">");
-        this.state = Status.IN_PROGRESS;
         id = tId;
         ++tId;
         this.sub_tasks = new Vector<>(); // Initialisation de la liste des sous-tâches
@@ -29,7 +28,6 @@ public class Task {
     public Task(String name, String desc){
         this.name = name;
         this.description = desc;
-        this.state = Status.IN_PROGRESS;
         id = tId;
         ++tId;
         this.sub_tasks = new Vector<>(); // Initialisation de la liste des sous-tâches

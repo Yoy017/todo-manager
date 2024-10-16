@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import ch.heigvd.dai.util.Status;
 
 public class fileReader {
     private static final String INPUT_FILE_PATH = "output.txt";
@@ -18,7 +19,7 @@ public class fileReader {
                 BufferedReader br = new BufferedReader(fi)
         ) {
             String line;
-            Pattern taskPattern = Pattern.compile("\\[(.*?)\\{(.*?)\\}\\]");
+            Pattern taskPattern = Pattern.compile("\\[(.*?)\\{(.*?)\\}\\] \\[Status: (.*?)\\]");
             Pattern subTaskPattern = Pattern.compile("\\t- \\[(.*?)\\]");
 
             while ((line = br.readLine()) != null) {
@@ -26,12 +27,13 @@ public class fileReader {
                 Matcher subTaskMatcher = subTaskPattern.matcher(line);
 
                 if (taskMatcher.find()) {
-                    // Nouvelle tâche principale
-                    String taskName = taskMatcher.group(1);
-                    String taskDescription = taskMatcher.group(2);
-                    currentTask = new Task(taskName, taskDescription);
-                    tasks.add(currentTask);
-                } else if (subTaskMatcher.find() && currentTask != null) {
+                    String name = taskMatcher.group(1);
+                    String description = taskMatcher.group(2);
+                    String stateString = taskMatcher.group(3);
+
+                    Status state = Status.fromLabel(stateString);
+                    tasks.add(new Task(name, description, state));
+                } else if (subTaskMatcher.find() || currentTask != null) {
                     // Sous-tâche associée à la tâche actuelle
                     String subTaskName = subTaskMatcher.group(1);
                     SubTask subTask = new SubTask(subTaskName, currentTask.id);

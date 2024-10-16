@@ -2,6 +2,7 @@
   <configuration default="false" name="Run the application" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="ch.heigvd.dai.Main" />
     <module name="todo-manager" />
+    <option name="PROGRAM_PARAMETERS" value="update -id 4 -s PENDING" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
