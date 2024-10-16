@@ -260,4 +260,17 @@ public class TaskManager {
         }
     }
 
+    // Sous-commande pour créer une nouvelle liste
+    @CommandLine.Command(name = "newList", description = "Create a new list")
+    public static class NewList implements Callable<Integer> {
+        @CommandLine.Parameters(description = "The name of the list")
+        private String listName;
+
+        @Override
+        public Integer call() {
+            fileWriter fw = new fileWriter(listName);
+            fw.createFileAndDirectory(listName);
+            return 0;
+        }
+    }
 }

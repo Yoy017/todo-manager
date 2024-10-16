@@ -12,7 +12,8 @@ public class Main {
                 .addSubcommand("show", new TaskManager.ShowTasks())
                 .addSubcommand("delete", new TaskManager.deleteTask())
                 .addSubcommand("update", new TaskManager.updateTask())
-                .addSubcommand("subtask", new TaskManager.AddSubTask());
+                .addSubcommand("subtask", new TaskManager.AddSubTask())
+                .addSubcommand("newList", new TaskManager.NewList());
 
         cmd.execute(args); // Exécute la commande avec les arguments passés
     }
