@@ -18,7 +18,7 @@ public class fileWriter {
                 BufferedWriter bw = new BufferedWriter(writer)
         ) {
             // Écriture de la tâche principale
-            String content = "[" + task.name + (task.description != null ? "{" + task.description + "}" : "{}") + "]\n";
+            String content = "[" + task.name + (task.description != null ? "{" + task.description + "}" : "{}") + "] [Status: " + task.state.getLabel() + "]\n";
             bw.write(content);
 
             // Écriture des sous-tâches
