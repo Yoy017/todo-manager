@@ -3,36 +3,45 @@ package ch.heigvd.dai.util;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Vector;
-import java.util.regex.Matcher; // Source: https://stackoverflow.com/questions/30661733/how-to-extract-content-between-two-words-in-a-text-file-using-java
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import ch.heigvd.dai.util.Task;
 
 public class fileReader {
+    private static final String INPUT_FILE_PATH = "src/main/java/ch/heigvd/dai/output.txt";
 
     public Vector<Task> getAllTask() {
         Vector<Task> tasks = new Vector<>();
+        Task currentTask = null;
+
         try (
-                Reader fi = new FileReader("src/main/java/ch/heigvd/dai/output.md", StandardCharsets.UTF_8);
+                Reader fi = new FileReader(INPUT_FILE_PATH, StandardCharsets.UTF_8);
                 BufferedReader br = new BufferedReader(fi)
         ) {
             String line;
-            // Regex pour extraire le nom et la description des tâches
-            Pattern pattern = Pattern.compile("\\[(.*?)\\{(.*?)\\}\\]");
+            Pattern taskPattern = Pattern.compile("\\[(.*?)\\{(.*?)\\}\\]");
+            Pattern subTaskPattern = Pattern.compile("\\t- \\[(.*?)\\]");
 
             while ((line = br.readLine()) != null) {
-                Matcher matcher = pattern.matcher(line);
-                if (matcher.find()) {
-                    String taskName = matcher.group(1);
-                    String taskDescription = matcher.group(2);
+                Matcher taskMatcher = taskPattern.matcher(line);
+                Matcher subTaskMatcher = subTaskPattern.matcher(line);
 
-                    // Crée un objet Task avec les valeurs extraites et l'ajoute à la liste
-                    Task task = new Task(taskName, taskDescription);
-                    tasks.add(task);
+                if (taskMatcher.find()) {
+                    // Nouvelle tâche principale
+                    String taskName = taskMatcher.group(1);
+                    String taskDescription = taskMatcher.group(2);
+                    currentTask = new Task(taskName, taskDescription);
+                    tasks.add(currentTask);
+                } else if (subTaskMatcher.find() && currentTask != null) {
+                    // Sous-tâche associée à la tâche actuelle
+                    String subTaskName = subTaskMatcher.group(1);
+                    SubTask subTask = new SubTask(subTaskName, currentTask.id);
+                    currentTask.addSubTask(subTask); // Ajouter la sous-tâche à la tâche actuelle
                 }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         return tasks;
     }
 }
