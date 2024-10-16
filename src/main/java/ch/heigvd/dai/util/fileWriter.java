@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 public class fileWriter {
-    private static final String OUTPUT_FILE_PATH = "src/main/java/ch/heigvd/dai/output.txt";
+    private static final String OUTPUT_FILE_PATH = "output.txt";
 
     public void writeFile(Task task, boolean append) {
         try (
