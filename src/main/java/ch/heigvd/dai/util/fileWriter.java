@@ -11,6 +11,7 @@ public class fileWriter {
         String fileExtension = ".tdm";
         this.filePath = "todoManagerFiles/" + fileName + fileExtension;
     }
+
     public void writeFile(Task task, boolean append) throws FileNotFoundException {
 
         try (
@@ -35,6 +36,34 @@ public class fileWriter {
         } catch (IOException e) {
             System.out.println("Error when writing" + filePath);
             throw new RuntimeException(e);
+        }
+    }
+
+    public void createFileAndDirectory(String fileName) {
+        // Chemin vers le répertoire
+        File directory = new File("todoManagerFiles");
+
+        // Vérification et création du répertoire s'il n'existe pas
+        if (!directory.exists()) {
+            boolean dirCreated = directory.mkdirs();
+            if (dirCreated) {
+                System.out.println("Directory 'todoManagerFiles/' successfully created.");
+            } else {
+                System.err.println("Failed to create directory 'todoManagerFiles/'.");
+                return;
+            }
+        }
+
+        // Création du fichier dans le répertoire
+        File file = new File(directory, fileName + ".tdm");
+        try {
+            if (file.createNewFile()) {
+                System.out.println("File '" + fileName + ".tdm' created successfully.");
+            } else {
+                System.out.println("File '" + fileName + ".tdm' already exists.");
+            }
+        } catch (IOException e) {
+            System.err.println("Error creating the file: " + e.getMessage());
         }
     }
 
