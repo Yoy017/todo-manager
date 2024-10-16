@@ -14,7 +14,7 @@ public class fileReader {
         this.filePath = "todoManagerFiles/" + filename + fileExtension;
     }
 
-    public Vector<Task> getAllTask() {
+    public Vector<Task> getAllTask() throws FileNotFoundException {
         Vector<Task> tasks = new Vector<>();
         Task currentTask = null;
 
@@ -43,9 +43,15 @@ public class fileReader {
                     currentTask.addSubTask(subTask); // Ajouter la sous-tâche à la tâche actuelle
                 }
             }
-        } catch (IOException e) {
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("File " + filePath + " not found");
+            throw new FileNotFoundException();
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
+
 
         return tasks;
     }
