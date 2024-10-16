@@ -7,20 +7,21 @@ import java.util.Vector;
 import ch.heigvd.dai.util.fileWriter;
 import ch.heigvd.dai.util.fileReader;
 import ch.heigvd.dai.util.Task;
+import ch.heigvd.dai.util.SubTask;
 
 import java.util.concurrent.Callable;
 
 // Commande principale pour gérer la todo-list
 @CommandLine.Command(
         name = "task",
-        description = "Todo list management commands.\n",
+        description = "Tasks management commands.\n",
         subcommands = { CommandLine.HelpCommand.class } // Ajoute une commande d'aide intégrée
 )
 public class TaskManager {
     // Sous-commande pour créer une tâche
-    @CommandLine.Command(name = "create", description = "Create a new todo list")
+    @CommandLine.Command(name = "create", description = "Create a new task")
     public static class CreateTask implements Callable<Integer> {
-        @CommandLine.Option(names = {"-t", "--title"}, description = "Title of the list")
+        @CommandLine.Option(names = {"-t", "--title"}, description = "Title of the task")
         private String title;
 
         @CommandLine.Option(names = {"-d", "--description"}, description = "Description of the task")
@@ -44,7 +45,7 @@ public class TaskManager {
     }
 
     // Sous-commande pour afficher toutes les tâches
-    @CommandLine.Command(name = "show", description = "Show all tasks")
+    @CommandLine.Command(name = "show", description = "Display all created tasks")
     public static class ShowTasks implements Callable<Integer> {
 
         @Override
@@ -55,14 +56,19 @@ public class TaskManager {
                 System.err.println("No task created yet.");
                 return 0;
             }
-            for(int i = 0; i < tasks.size(); ++i)
+            for(int i = 0; i < tasks.size(); ++i) {
                 System.err.println(tasks.elementAt(i));
+                for (SubTask subTask : tasks.elementAt(i).getSubTasks()) {
+                    // Affiche les sous-tâches, indentées
+                    System.err.println(subTask);
+                }
+            }
             return 0;
         }
     }
 
     // Sous-commande pour supprimer une tâche spécifique
-    @CommandLine.Command(name = "delete", description = "Delete a specific")
+    @CommandLine.Command(name = "delete", description = "Delete a specific task")
     public static class deleteTask implements Callable<Integer> {
 
         @CommandLine.Option(names = {"-id"}, description = "id of the task", required = true)
@@ -133,16 +139,16 @@ public class TaskManager {
 
             Task taskToUpdate = tasks.elementAt(id);
 
+            if(title == null && description == null){
+                System.out.println("No changes made");
+                return 0;
+            }
+
             if (title != null)
                 taskToUpdate.name = title;
 
             if (description != null)
                 taskToUpdate.description = description;
-
-            if(title != null && description != null){
-                System.out.println("No changes made.");
-                return 0;
-            }
 
             fileWriter fo = new fileWriter();
             fo.overwriteTasks(tasks);
@@ -151,4 +157,42 @@ public class TaskManager {
             return 0;
         }
     }
+
+    // Sous-commande pour ajouter une sous-tâche à une tâche existante
+    @CommandLine.Command(name = "subtask", description = "Add a subtask to a specific task")
+    public static class AddSubTask implements Callable<Integer> {
+
+        @CommandLine.Option(names = {"-id"}, description = "ID of the parent task", required = true)
+        private int parentId;
+
+        @CommandLine.Option(names = {"-t", "--title"}, description = "Title of the subtask", required = true)
+        private String title;
+
+        @Override
+        public Integer call() {
+            fileReader fr = new fileReader();
+            Vector<Task> tasks = fr.getAllTask();
+
+            if (tasks.isEmpty()) {
+                System.err.println("No tasks created yet.");
+                return 0;
+            }
+
+            if (parentId < 0 || parentId >= tasks.size()) {
+                System.err.println("Invalid parent task ID.");
+                return 1;
+            }
+
+            Task parentTask = tasks.get(parentId);
+            parentTask.addSubTask(new SubTask(title, parentTask.id));
+
+            // Mettre à jour le fichier .txt
+            fileWriter fw = new fileWriter();
+            fw.overwriteTasks(tasks);
+
+            System.out.println("Subtask successfully added to task: " + parentTask.name);
+            return 0;
+        }
+    }
+
 }
