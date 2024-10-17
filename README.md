@@ -156,19 +156,23 @@ Optional arguments :
 - -h : see the help message
 - -V : version
 
-#### show
-
-
-Required arguments :
-
-Optional arguments :
-
 #### update
 
+Update an already existing task in a given file.
+
+```shell
+todo-manager update <filename> -id idOfTaskToUpdate
+```
 
 Required arguments :
+- filename : the name of the list to see the tasks from (without the .tdm extension)
+- -id : id of the task to update.
 
 Optional arguments :
+- -t : new title you want the task to have
+- -d : new description you want the task to have
+- -s : new status you want the task to have 
+
 
 #### subtask
 
