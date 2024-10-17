@@ -8,6 +8,9 @@ import ch.heigvd.dai.util.fileReader;
 import picocli.CommandLine;
 
 import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Vector;
 import java.util.concurrent.Callable;
 
@@ -23,13 +26,27 @@ public class ShowTasks implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        // Vérifier si le répertoire todoManagerList existe
+        Path dir = Paths.get("todoManagerList");
+        if (!Files.exists(dir)) {
+            System.out.println("No list created yet.");
+            return 1;
+        }
+
+        // Vérifier si la liste spécifié existe dans le répertoire
+        Path filePath = dir.resolve(filename + ".tdm");
+        if (!Files.exists(filePath)) {
+            System.out.println("The list \"" + filename + "\" does not exist.");
+            return 1;
+        }
+
         // Création d'une instance de fileReader pour lire les tâches depuis le fichier
         fileReader fi = new fileReader(filename);
         Vector<Task> tasks;
         try {
             tasks = fi.getAllTask();
         } catch (FileNotFoundException e) {
-            System.out.println("Error: The file does not exist. Please make sure the file is created.");
+            System.out.println("La liste " + filename + " n'existe pas.");
             return 1;
         }
 
