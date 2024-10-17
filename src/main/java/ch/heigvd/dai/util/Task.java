@@ -55,6 +55,6 @@ public class Task {
 
     @Override
     public String toString(){
-        return this.id + "] " + this.name + "\t| " + this.description + " [Status: " + this.state.getLabel() + "]";
+        return this.id + "] " + this.name + "\t| " + this.description + " [" + this.state.getLabel() + "]";
     }
 }

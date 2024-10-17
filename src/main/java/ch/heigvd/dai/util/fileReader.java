@@ -24,7 +24,7 @@ public class fileReader {
                 BufferedReader br = new BufferedReader(fi)
         ) {
             String line;
-            Pattern taskPattern = Pattern.compile("\\[(.*?)\\{(.*?)\\}\\] \\[Status: (.*?)\\]");
+            Pattern taskPattern = Pattern.compile("\\[(.*?)\\{(.*?)\\}\\] \\[(.*?)\\]");
             Pattern subTaskPattern = Pattern.compile("\\t- \\[(.*?)\\]");
 
             while ((line = br.readLine()) != null) {
