@@ -25,7 +25,9 @@ public class ShowLists implements Callable<Integer> {
         try (java.nio.file.DirectoryStream<java.nio.file.Path> stream = java.nio.file.Files.newDirectoryStream(dir, "*.tdm")) {
             boolean hasFiles = false;
             for (java.nio.file.Path entry : stream) {
-                System.out.println(entry.getFileName().toString());
+                String nameToDisplay = entry.getFileName().toString();
+                String result = nameToDisplay.split(".tdm")[0];
+                System.out.println(result);
                 hasFiles = true;
             }
             if (!hasFiles) {
