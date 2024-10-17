@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "create", description = "Create a task in a file")
+@CommandLine.Command(name = "create", description = "Create a task in an existing list.")
 public class Create implements Callable<Integer> {
     @CommandLine.ParentCommand protected Root parent;
 

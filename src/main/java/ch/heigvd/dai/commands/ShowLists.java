@@ -4,7 +4,7 @@ import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "showLists", description = "Show all lists")
+@CommandLine.Command(name = "showLists", description = "Show all existing lists")
 public class ShowLists implements Callable<Integer> {
 
     @Override

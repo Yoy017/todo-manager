@@ -10,13 +10,13 @@ import java.nio.file.Paths;
 import java.util.concurrent.Callable;
 
 // Sous-commande pour créer une nouvelle liste
-@CommandLine.Command(name = "newList", description = "Create a new list")
+@CommandLine.Command(name = "newList", description = "Create a new list.")
 public class NewList implements Callable<Integer> {
 
     @CommandLine.ParentCommand
     protected Root parent;
 
-    @CommandLine.Parameters(index = "0", description = "The name of the new list.")
+    @CommandLine.Parameters(index = "0", description = "The name of the new list to be created.")
     protected String filename;
 
     @Override
