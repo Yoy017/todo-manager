@@ -30,6 +30,8 @@ public class Create implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        long start = System.currentTimeMillis();
+
         // Vérifier si le répertoire todoManagerList existe
         Path dir = Paths.get("todoManagerList");
         if (!Files.exists(dir)) {
@@ -69,6 +71,8 @@ public class Create implements Callable<Integer> {
             return 1;
         }
 
+        long end = System.currentTimeMillis();
+        System.out.println("Execution time: " + (end - start) + "ms");
         return 0;
     }
 }

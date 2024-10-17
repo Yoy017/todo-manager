@@ -21,6 +21,8 @@ public class NewList implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        long start = System.currentTimeMillis();
+
         // Vérifier si le répertoire 'todoManagerList' existe, sinon le créer
         if (!Files.exists(Paths.get("todoManagerList"))) {
             try {
@@ -42,6 +44,9 @@ public class NewList implements Callable<Integer> {
         // Créer le fichier de la nouvelle liste
         fileWriter fw = new fileWriter(filename);
         fw.createFileAndDirectory(filename);
+
+        long end = System.currentTimeMillis();
+        System.out.println("Execution time: " + (end - start) + "ms");
         return 0;
     }
 }

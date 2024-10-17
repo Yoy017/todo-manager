@@ -26,6 +26,8 @@ public class ShowTasks implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        long start = System.currentTimeMillis();
+
         // Vérifier si le répertoire todoManagerList existe
         Path dir = Paths.get("todoManagerList");
         if (!Files.exists(dir)) {
@@ -63,6 +65,9 @@ public class ShowTasks implements Callable<Integer> {
                 task.getSubTasks().forEach(subTask -> System.out.println("\t" + subTask));
             }
         }
+
+        long end = System.currentTimeMillis();
+        System.out.println("Execution time: " + (end - start) + "ms");
         return 0;
     }
 }
