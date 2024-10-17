@@ -9,10 +9,12 @@ Each user has it's personnal file so that everyone can have it's own todo list.
 **This is only usable on a linux terminal.** If you use Windows or MacOS devices, you can still use paper.
 
 
-Don't know where to start ? See section **Getting Started**
+Don't know where to start ? See section [Getting Started](#getting-started)
 
-Curious about how it works ? See section **How it works**
-Don't know how to use ? See section [How to use](#how-it-works)
+Curious about how it works ? See section [How it works](#how-it-works)
+
+Don't know how to use ? See section [How to use](#how-it-use)
+
 To see a list of available commands, see section [Commands](#commands)
 
 
@@ -24,7 +26,8 @@ for notes on deploying the project on a live system.
 
 ### Prerequisites
 
-You need to have a compatible version of java.
+You need to have a compatible version of java. If you don't know how to install java, see [this 
+very well written document.](https://github.com/heig-vd-dai-course/heig-vd-dai-course/blob/e57a2205b48ce2a435624adbb713d83e30b408b0/04-java-intellij-idea-and-maven/COURSE_MATERIAL.md#install-sdkman)
 
 ### Installing
 
@@ -73,7 +76,25 @@ The .tdm files are interpreted by todo-manager as "lists" of tasks. The lists fo
 
 ### Format description
 
-*describe format*
+A task starts with character '[', and ends with character ']'. 
+It has a name and a description (additionnal text). A name should never be empty. The app will add a default name if no name is provided.
+A description starts with character '{' and ends with character '}'.
+After the name and the description is the status. Status can either be "En attente", "En cours", or "Terminé".
+
+
+
+Down here is a example of a tdm file
+```text
+[<untilted>{}] [Status: En cours]
+[Vaisselle{Faire la vaisselle}] [Status: En cours]
+[Faire mes devoirs{}] [Status: En cours]
+[<untilted>{Pas d'idée de titre, mais ne pas rien faire}] [Status: En attente]
+[name{}] [Status: En cours]
+[name{}] [Status: Terminé]
+```
+
+Tasks will be considered sorted in the order they come in the file.
+
 
 ## How to use
 
