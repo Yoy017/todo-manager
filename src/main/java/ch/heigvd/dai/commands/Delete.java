@@ -14,16 +14,16 @@ import java.util.Scanner;
 import java.util.Vector;
 import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "delete", description = "Delete a specific task")
+@CommandLine.Command(name = "delete", description = "Delete an existing task.")
 public class Delete implements Callable<Integer> {
 
     @CommandLine.ParentCommand
     protected Root parent;
 
-    @CommandLine.Parameters(index = "0", description = "The name of the file.")
+    @CommandLine.Parameters(index = "0", description = "The name of the list to delete the task from.")
     protected String filename;
 
-    @CommandLine.Option(names = {"-id"}, description = "ID of the task", required = true)
+    @CommandLine.Option(names = {"-id"}, description = "ID of the task to delete. Run command show before to see which task has which id.", required = true)
     private int id;
 
     @Override

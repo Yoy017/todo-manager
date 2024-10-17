@@ -14,23 +14,23 @@ import java.nio.file.Paths;
 import java.util.Vector;
 import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "update", description = "Update a task")
+@CommandLine.Command(name = "update", description = "Update an existing task from an existing list.")
 public class Update implements Callable<Integer> {
     @CommandLine.ParentCommand protected Root parent;
 
-    @CommandLine.Parameters(index = "0", description = "The name of the file.")
+    @CommandLine.Parameters(index = "0", description = "The name of the list to update the task from.")
     protected String filename;
 
-    @CommandLine.Option(names = {"-id"}, description = "ID of the task to update", required = true)
+    @CommandLine.Option(names = {"-id"}, description = "ID of the task to update. Run command show before to see which task has which id.", required = true)
     private int id;
 
-    @CommandLine.Option(names = {"-t", "--title"}, description = "New title of the task")
+    @CommandLine.Option(names = {"-t", "--title"}, description = "New title of the task.")
     private String title;
 
-    @CommandLine.Option(names = {"-d", "--description"}, description = "New description of the task")
+    @CommandLine.Option(names = {"-d", "--description"}, description = "New description of the task.")
     private String description;
 
-    @CommandLine.Option(names = {"-s", "--status"}, description = "Select a task by status [PENDING, IN_PROGRESS, DONE]")
+    @CommandLine.Option(names = {"-s", "--status"}, description = "New status of the task : PENDING, IN_PROGRESS, or DONE.")
     private Status state;
 
     @Override

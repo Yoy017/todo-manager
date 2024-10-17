@@ -18,13 +18,13 @@ import java.util.concurrent.Callable;
 public class Subtask implements Callable<Integer> {
     @CommandLine.ParentCommand protected Root parent;
 
-    @CommandLine.Parameters(index = "0", description = "The name of the file.")
+    @CommandLine.Parameters(index = "0", description = "The name of the list to modify.")
     protected String filename;
 
     @CommandLine.Option(names = {"-id"}, description = "ID of the parent task", required = true)
     private int parentId;
 
-    @CommandLine.Option(names = {"-t", "--title"}, description = "Title of the subtask", required = true)
+    @CommandLine.Option(names = {"-t", "--title"}, description = "Title of the new subtask", required = true)
     private String title;
 
     @Override

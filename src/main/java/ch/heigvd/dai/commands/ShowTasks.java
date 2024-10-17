@@ -14,14 +14,14 @@ import java.nio.file.Paths;
 import java.util.Vector;
 import java.util.concurrent.Callable;
 
-@CommandLine.Command(name = "show", description = "Display all created tasks")
+@CommandLine.Command(name = "show", description = "Display all created tasks. The tasks ids are on the far left.")
 public class ShowTasks implements Callable<Integer> {
     @CommandLine.ParentCommand protected Root parent;
 
-    @CommandLine.Parameters(index = "0", description = "The name of the file.")
+    @CommandLine.Parameters(index = "0", description = "The name of the list to show the tasks from.")
     protected String filename;
 
-    @CommandLine.Option(names = {"-s", "--status"}, description = "Select a task by status [PENDING, IN_PROGRESS, DONE]")
+    @CommandLine.Option(names = {"-s", "--status"}, description = "To only display task with a specific status [PENDING, IN_PROGRESS, DONE]")
     private Status state;
 
     @Override
