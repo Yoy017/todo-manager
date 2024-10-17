@@ -63,8 +63,17 @@ From now on, each time you see the words "todo-manager", either in this file, or
 provided by the application, replace this with :
 
 ```shell
-java -jar target/todo-manager-1.0-SNAPSHOT.jar
+java -jar target/todo-manager-1.0-SNAPSHOT.jar 
 ```
+
+
+If you want a first file to start playing with, you can use ``exampleFile.tdm``. Try this command to see the tasks in this list.
+```shell
+java -jar target/todo-manager-1.0-SNAPSHOT.jar show example
+```
+
+To see a complete example use, see file ``ExampleOfUse.md`` at the root of the project.
+
 
 ## How it works
 
