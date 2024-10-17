@@ -12,13 +12,17 @@ import picocli.CommandLine;
                 ShowTasks.class,
                 Update.class,
                 Subtask.class,
+                NewList.class,
+                ShowLists.class
         },
         scope = CommandLine.ScopeType.INHERIT,
         mixinStandardHelpOptions = true)
 public class Root {
-
+    /*
     @CommandLine.Parameters(index = "0", description = "The name of the file.")
     protected String filename;
+
+     */
 
 
 }

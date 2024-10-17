@@ -56,7 +56,7 @@ public class fileWriter {
         File file = new File(directory, fileName + ".tdm");
         try {
             if (file.createNewFile()) {
-                System.out.println("List " + fileName + " created successfully.");
+                System.out.println("New list " + fileName + " created successfully.");
             } else {
                 System.out.println("List " + fileName + " already exists.");
             }
