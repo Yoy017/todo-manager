@@ -2,7 +2,7 @@
   <configuration default="false" name="Run the application" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="ch.heigvd.dai.Main" />
     <module name="todo-manager" />
-    <option name="PROGRAM_PARAMETERS" value="delete -id 9 DAI" />
+    <option name="PROGRAM_PARAMETERS" value="-h" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
