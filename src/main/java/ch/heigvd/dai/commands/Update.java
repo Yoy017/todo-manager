@@ -35,8 +35,6 @@ public class Update implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        long start = System.currentTimeMillis();
-
         // Vérifier si le répertoire todoManagerList existe
         Path dir = Paths.get("todoManagerList");
         if (!Files.exists(dir)) {
@@ -96,9 +94,6 @@ public class Update implements Callable<Integer> {
         fw.overwriteTasks(tasks);
 
         System.out.println("Task " + id + " successfully updated.");
-
-        long end = System.currentTimeMillis();
-        System.out.println("Execution time: " + (end - start) + "ms");
         return 0;
     }
 }

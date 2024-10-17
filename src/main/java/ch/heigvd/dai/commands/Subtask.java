@@ -29,8 +29,6 @@ public class Subtask implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        long start = System.currentTimeMillis();
-
         // Vérifier si le répertoire todoManagerList existe
         Path dir = Paths.get("todoManagerList");
         if (!Files.exists(dir)) {
@@ -78,9 +76,6 @@ public class Subtask implements Callable<Integer> {
         fw.overwriteTasks(tasks);
 
         System.out.println("Subtask successfully added to task: " + parentTask.name);
-
-        long end = System.currentTimeMillis();
-        System.out.println("Execution time: " + (end - start) + "ms");
         return 0;
     }
 }
