@@ -6,7 +6,15 @@ Welcome ! This is todo-manager's repository, a simple command line application t
 
 Each user has it's personnal file so that everyone can have it's own todo list.
 
-**This is only usable on a linux terminal.** Windows and mac users are pleased to wait for further developpment.
+**This is only usable on a linux terminal.** If you use Windows or MacOS devices, you can still use paper.
+
+
+Don't know where to start ? See section **Getting Started**
+
+Curious about how it works ? See section **How it works**
+Don't know how to use ? See section [How to use](#how-it-works)
+To see a list of available commands, see section [Commands](#commands)
+
 
 ## Getting Started
 
@@ -55,6 +63,18 @@ provided by the application, replace this with :
 java -jar target/todo-manager-1.0-SNAPSHOT.jar
 ```
 
+## How it works
+
+todo-manager interacts with ".tdm" files. It will look for .tdm files in a "todoManagerFiles" folder (if it doesn't
+exist, it will be created by the newList command, or you can create it manually).
+
+The .tdm files are interpreted by todo-manager as "lists" of tasks. The lists follow a certain format (see formatDescription.md).
+
+
+### Format description
+
+*describe format*
+
 ## How to use
 
 This section is for users that simply want to use the application without knowing how it works.
@@ -78,7 +98,7 @@ todo-manager newList <listname>
 The file, listname
 
 
-### Commands
+## Commands
 
 The following section explicits how to use every command todo-manager offers. During you use of todo-manager, if you have any doubt,
 run the command + optional argument -h, to get indications on how to use the command. Like :
