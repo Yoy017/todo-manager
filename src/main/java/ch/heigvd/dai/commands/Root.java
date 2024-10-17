@@ -1,0 +1,24 @@
+package ch.heigvd.dai.commands;
+
+import picocli.CommandLine;
+
+@CommandLine.Command(
+        name = "todo-manager",
+        description = "A simple task manager",
+        version = "1.0.0",
+        subcommands = {
+                Create.class,
+                Delete.class,
+                ShowTasks.class,
+                Update.class,
+                Subtask.class,
+        },
+        scope = CommandLine.ScopeType.INHERIT,
+        mixinStandardHelpOptions = true)
+public class Root {
+
+    @CommandLine.Parameters(index = "0", description = "The name of the file.")
+    protected String filename;
+
+
+}
