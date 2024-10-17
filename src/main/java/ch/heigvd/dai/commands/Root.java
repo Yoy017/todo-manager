@@ -18,11 +18,5 @@ import picocli.CommandLine;
         scope = CommandLine.ScopeType.INHERIT,
         mixinStandardHelpOptions = true)
 public class Root {
-    /*
-    @CommandLine.Parameters(index = "0", description = "The name of the file.")
-    protected String filename;
-
-     */
-
 
 }
