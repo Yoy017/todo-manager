@@ -12,7 +12,7 @@ public class Task {
     public Status state = Status.IN_PROGRESS;
 
     public Task(){
-        this.name = ("<untilted_" + id + ">");
+        this.name = ("<untilted>");
         id = tId;
         ++tId;
         this.sub_tasks = new Vector<>(); // Initialisation de la liste des sous-tâches
