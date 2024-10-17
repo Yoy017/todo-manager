@@ -12,7 +12,7 @@ public class fileReader {
 
     public fileReader(String filename) {
         String fileExtension = ".tdm";
-        this.filePath = "todoManagerFiles/" + filename + fileExtension;
+        this.filePath = "todoManagerList/" + filename + fileExtension;
     }
 
     public Vector<Task> getAllTask() throws FileNotFoundException {

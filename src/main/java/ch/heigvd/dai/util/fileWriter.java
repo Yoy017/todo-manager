@@ -5,11 +5,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 public class fileWriter {
-    private final String filePath;
+    private final String filePath, directoryname = "todoManagerList";
 
     public fileWriter(String fileName) {
         String fileExtension = ".tdm";
-        this.filePath = "todoManagerFiles/" + fileName + fileExtension;
+        this.filePath = directoryname + "/" + fileName + fileExtension;
     }
 
     public void writeFile(Task task, boolean append) throws FileNotFoundException {
@@ -31,7 +31,7 @@ public class fileWriter {
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("File " + filePath + " not found");
+            System.out.println("List " + filePath + " not found");
             throw new FileNotFoundException();
         } catch (IOException e) {
             System.out.println("Error when writing" + filePath);
@@ -41,15 +41,13 @@ public class fileWriter {
 
     public void createFileAndDirectory(String fileName) {
         // Chemin vers le répertoire
-        File directory = new File("todoManagerFiles");
+        File directory = new File(directoryname);
 
         // Vérification et création du répertoire s'il n'existe pas
         if (!directory.exists()) {
             boolean dirCreated = directory.mkdirs();
-            if (dirCreated) {
-                System.out.println("Directory 'todoManagerFiles/' successfully created.");
-            } else {
-                System.err.println("Failed to create directory 'todoManagerFiles/'.");
+            if (!dirCreated) {
+                System.err.println("Failed to create " + this.filePath);
                 return;
             }
         }
@@ -58,12 +56,12 @@ public class fileWriter {
         File file = new File(directory, fileName + ".tdm");
         try {
             if (file.createNewFile()) {
-                System.out.println("File '" + fileName + ".tdm' created successfully.");
+                System.out.println("List " + fileName + " created successfully.");
             } else {
-                System.out.println("File '" + fileName + ".tdm' already exists.");
+                System.out.println("List " + fileName + " already exists.");
             }
         } catch (IOException e) {
-            System.err.println("Error creating the file: " + e.getMessage());
+            System.err.println("Error creating the list: " + e.getMessage());
         }
     }
 
