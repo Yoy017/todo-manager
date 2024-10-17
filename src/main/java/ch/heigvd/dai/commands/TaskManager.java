@@ -23,8 +23,8 @@ public class TaskManager {
     // Sous-commande pour créer une tâche
     @CommandLine.Command(name = "create", description = "Create a new task")
     public static class CreateTask implements Callable<Integer> {
-        @CommandLine.Parameters(index = "0", description = "The name of the file.")
-        protected String filename;
+        @CommandLine.Parameters(index = "0", description = "The name of the list.")
+        protected String listname;
 
         @CommandLine.Option(names = {"-t", "--title"}, description = "Title of the task")
         private String title;
@@ -47,9 +47,9 @@ public class TaskManager {
             else
                 task = new Task(title, description, state);
 
-            fileWriter fw = new fileWriter(filename);
+            fileWriter fw = new fileWriter(listname);
             try{
-                fw.writeFile(task, true);
+                fw.writeTask(task, true);
                 System.out.println("Task successfully created.");
             } catch (FileNotFoundException e) {
                 System.out.println("You can only create tasks in an existing file.");

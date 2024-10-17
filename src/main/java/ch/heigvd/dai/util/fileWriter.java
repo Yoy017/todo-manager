@@ -6,13 +6,15 @@ import java.util.Vector;
 
 public class fileWriter {
     private final String filePath;
+    private long duration = 0;
 
     public fileWriter(String fileName) {
         String fileExtension = ".tdm";
         this.filePath = "todoManagerFiles/" + fileName + fileExtension;
     }
 
-    public void writeFile(Task task, boolean append) throws FileNotFoundException {
+    public void writeTask(Task task, boolean append) throws FileNotFoundException {
+        long startTime = System.currentTimeMillis();
 
         try (
                 Writer writer = new FileWriter(filePath, StandardCharsets.UTF_8, append);
@@ -29,7 +31,6 @@ public class fileWriter {
                     bw.write(subTaskContent);
                 }
             }
-
         } catch (FileNotFoundException e) {
             System.out.println("File " + filePath + " not found");
             throw new FileNotFoundException();
@@ -37,6 +38,9 @@ public class fileWriter {
             System.out.println("Error when writing" + filePath);
             throw new RuntimeException(e);
         }
+
+        long endTime = System.currentTimeMillis(); // Fin de la mesure du temps
+        this.duration = endTime - startTime;
     }
 
     public void createFileAndDirectory(String fileName) {
@@ -68,13 +72,31 @@ public class fileWriter {
     }
 
     public void overwriteTasks(Vector<Task> tasks) {
-        // Cette méthode réécrit tout le fichier
+        long startTime = System.currentTimeMillis();
+
         for (int i = 0; i < tasks.size(); ++i) {
             try{
-                writeFile(tasks.elementAt(i), i != 0); // append = false pour la première tâche, true ensuite
+                writeTask(tasks.elementAt(i), i != 0); // append = false pour la première tâche, true ensuite
             } catch (FileNotFoundException e) {
                 break;
             }
         }
+
+        long endTime = System.currentTimeMillis();
+        this.duration = endTime - startTime;
+        writeDuration();
+    }
+
+    private void writeDuration(){
+    try(
+            Writer writer = new FileWriter(filePath, StandardCharsets.UTF_8, true);
+            BufferedWriter bw = new BufferedWriter(writer)
+            ) {
+            bw.newLine();
+            bw.write("Execution duration: " + this.duration + "ms");
+    } catch (IOException e) {
+        System.out.println("Error when writing" + filePath);
+        throw new RuntimeException(e);
+    }
     }
 }
