@@ -8,6 +8,9 @@ import ch.heigvd.dai.util.fileWriter;
 import picocli.CommandLine;
 
 import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Vector;
 import java.util.concurrent.Callable;
 
@@ -32,12 +35,27 @@ public class Update implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        // Vérifier si le répertoire todoManagerList existe
+        Path dir = Paths.get("todoManagerList");
+        if (!Files.exists(dir)) {
+            System.out.println("No list created yet.");
+            return 1;
+        }
+
+        // Vérifier si la liste spécifié existe dans le répertoire
+        Path filePath = dir.resolve(filename + ".tdm");
+        if (!Files.exists(filePath)) {
+            System.out.println("The list \"" + filename + "\" does not exist.");
+            return 1;
+        }
+
         fileReader fi = new fileReader(filename);
         Vector<Task> tasks;
-        try{
+
+        try {
             tasks = fi.getAllTask();
         } catch (FileNotFoundException e) {
-            System.err.println("You can only update tasks in an existing file.");
+            System.err.println("Error: The specified list does not exist or cannot be read.");
             return 1;
         }
 
@@ -47,29 +65,33 @@ public class Update implements Callable<Integer> {
         }
 
         if (id <= 0 || id > tasks.size()) {
-            System.err.println("ID is out of bounds!");
+            System.err.println("Error: Task ID is out of bounds. It should be between 1 and " + tasks.size());
+            return 1;
+        }
+
+        Task taskToUpdate = tasks.get(id);
+
+        if (title == null && description == null && state == null) {
+            System.out.println("No changes made.");
             return 0;
         }
 
-        Task taskToUpdate = tasks.elementAt(id);
-
-        if(title == null && description == null && state == null){
-            System.out.println("No changes made");
-            return 0;
-        }
-
-        if (title != null)
+        // Application des modifications
+        if (title != null) {
             taskToUpdate.name = title;
+        }
 
-        if (description != null)
+        if (description != null) {
             taskToUpdate.description = description;
+        }
 
-        if(state != null)
+        if (state != null) {
             taskToUpdate.state = state;
+        }
 
-        fileWriter fo = new fileWriter(filename);
-
-        fo.overwriteTasks(tasks);
+        // Sauvegarder les changements dans le fichier
+        fileWriter fw = new fileWriter(filename);
+        fw.overwriteTasks(tasks);
 
         System.out.println("Task " + id + " successfully updated.");
         return 0;

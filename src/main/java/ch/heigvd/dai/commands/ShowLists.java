@@ -6,7 +6,6 @@ import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "showLists", description = "Show all lists")
 public class ShowLists implements Callable<Integer> {
-    // @CommandLine.ParentCommand protected Root parent;
 
     @Override
     public Integer call() {

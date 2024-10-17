@@ -11,9 +11,6 @@ import java.io.FileNotFoundException;
 import java.util.Vector;
 import java.util.concurrent.Callable;
 
-
-
-
 @CommandLine.Command(name = "show", description = "Display all created tasks")
 public class ShowTasks implements Callable<Integer> {
     @CommandLine.ParentCommand protected Root parent;
@@ -26,26 +23,27 @@ public class ShowTasks implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        // Création d'une instance de fileReader pour lire les tâches depuis le fichier
         fileReader fi = new fileReader(filename);
         Vector<Task> tasks;
         try {
             tasks = fi.getAllTask();
         } catch (FileNotFoundException e) {
-            System.out.println("You can only show tasks in an existing file.");
+            System.out.println("Error: The file does not exist. Please make sure the file is created.");
             return 1;
         }
 
-        if(tasks.isEmpty()) {
-            System.err.println("No task created yet.");
+        // Si aucune tâche n'est présente, afficher un message approprié
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks available in the file.");
             return 0;
         }
 
-        for(int i = 0; i < tasks.size(); ++i) {
-            if(tasks.elementAt(i).state == state || state == null) {
-                System.out.println(tasks.elementAt(i)); // Affiche la tâche
-                for (SubTask subTask : tasks.elementAt(i).getSubTasks()) {
-                    System.out.println(subTask); // Affiche des sous-tâches
-                }
+        // Affichage des tâches, en filtrant par statut si un statut est fourni
+        for(Task task : tasks){
+            if (state == null || task.state == state) {
+                System.out.println(task);
+                task.getSubTasks().forEach(subTask -> System.out.println("\t" + subTask));
             }
         }
         return 0;

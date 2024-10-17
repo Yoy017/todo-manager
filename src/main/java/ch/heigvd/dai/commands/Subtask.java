@@ -8,6 +8,9 @@ import ch.heigvd.dai.util.fileWriter;
 import picocli.CommandLine;
 
 import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Vector;
 import java.util.concurrent.Callable;
 
@@ -26,28 +29,49 @@ public class Subtask implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        // Vérifier si le répertoire todoManagerList existe
+        Path dir = Paths.get("todoManagerList");
+        if (!Files.exists(dir)) {
+            System.out.println("No list created yet.");
+            return 1;
+        }
+
+        // Vérifier si la liste spécifié existe dans le répertoire
+        Path filePath = dir.resolve(filename + ".tdm");
+        if (!Files.exists(filePath)) {
+            System.out.println("The list \"" + filename + "\" does not exist.");
+            return 1;
+        }
+
+        // Lecture des tâches depuis le fichier
         fileReader fr = new fileReader(filename);
         Vector<Task> tasks;
         try {
             tasks = fr.getAllTask();
         } catch (FileNotFoundException e) {
+            System.err.println("Error: The specified file does not exist or cannot be read.");
             return 1;
         }
 
+        // Vérification si des tâches existent
         if (tasks.isEmpty()) {
             System.err.println("No tasks created yet.");
             return 0;
         }
 
+        // Vérification si l'ID de la tâche parente est valide
         if (parentId < 0 || parentId >= tasks.size()) {
-            System.err.println("Invalid parent task ID.");
+            System.err.println("Invalid parent task ID: " + parentId);
             return 1;
         }
 
         Task parentTask = tasks.get(parentId);
-        parentTask.addSubTask(new SubTask(title, parentTask.id));
 
-        // Mettre à jour le fichier .tdm
+        // Ajout de la sous-tâche à la tâche parente
+        SubTask newSubTask = new SubTask(title, parentTask.id);
+        parentTask.addSubTask(newSubTask);
+
+        // Sauvegarde des modifications dans le fichier
         fileWriter fw = new fileWriter(filename);
         fw.overwriteTasks(tasks);
 
