@@ -36,7 +36,7 @@ public class ShowTasks implements Callable<Integer> {
         // Vérifier si la liste spécifié existe dans le répertoire
         Path filePath = dir.resolve(filename + ".tdm");
         if (!Files.exists(filePath)) {
-            System.out.println("The list \"" + filename + "\" does not exist.");
+            System.out.println("List \"" + filename + "\" does not exist.");
             return 1;
         }
 
@@ -46,13 +46,13 @@ public class ShowTasks implements Callable<Integer> {
         try {
             tasks = fi.getAllTask();
         } catch (FileNotFoundException e) {
-            System.out.println("La liste " + filename + " n'existe pas.");
+            System.out.println("List: " + filename + " doesn't exist.");
             return 1;
         }
 
         // Si aucune tâche n'est présente, afficher un message approprié
         if (tasks.isEmpty()) {
-            System.out.println("No tasks available in the file.");
+            System.out.println("No tasks created in the list.");
             return 0;
         }
 
