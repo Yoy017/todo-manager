@@ -37,12 +37,16 @@ public class fileReader {
                     String stateString = taskMatcher.group(3);
 
                     Status state = Status.fromLabel(stateString);
-                    tasks.add(new Task(name, description, state));
-                } else if (subTaskMatcher.find() || currentTask != null) {
-                    // Sous-tâche associée à la tâche actuelle
-                    String subTaskName = subTaskMatcher.group(1);
-                    SubTask subTask = new SubTask(subTaskName, currentTask.id);
-                    currentTask.addSubTask(subTask); // Ajouter la sous-tâche à la tâche actuelle
+                    currentTask = new Task(name, description, state); // Initialise currentTask ici
+                    tasks.add(currentTask); // Ajoute la tâche à la liste
+                } else if (subTaskMatcher.find()) {
+                    if (currentTask != null) {
+                        String subTaskName = subTaskMatcher.group(1);
+                        SubTask subTask = new SubTask(subTaskName, currentTask.id);
+                        currentTask.addSubTask(subTask); // Ajouter la sous-tâche à la tâche actuelle
+                    } else {
+                        System.err.println("Error: Found a sub-task without a parent task");
+                    }
                 }
             }
         }
@@ -53,7 +57,6 @@ public class fileReader {
         catch (IOException e) {
             throw new RuntimeException(e);
         }
-
 
         return tasks;
     }
