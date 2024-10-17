@@ -15,6 +15,9 @@ import java.util.concurrent.Callable;
 public class Subtask implements Callable<Integer> {
     @CommandLine.ParentCommand protected Root parent;
 
+    @CommandLine.Parameters(index = "0", description = "The name of the file.")
+    protected String filename;
+
     @CommandLine.Option(names = {"-id"}, description = "ID of the parent task", required = true)
     private int parentId;
 
@@ -23,7 +26,7 @@ public class Subtask implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        fileReader fr = new fileReader(parent.filename);
+        fileReader fr = new fileReader(filename);
         Vector<Task> tasks;
         try {
             tasks = fr.getAllTask();
@@ -45,7 +48,7 @@ public class Subtask implements Callable<Integer> {
         parentTask.addSubTask(new SubTask(title, parentTask.id));
 
         // Mettre à jour le fichier .tdm
-        fileWriter fw = new fileWriter(parent.filename);
+        fileWriter fw = new fileWriter(filename);
         fw.overwriteTasks(tasks);
 
         System.out.println("Subtask successfully added to task: " + parentTask.name);

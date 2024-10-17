@@ -12,6 +12,9 @@ import java.util.concurrent.Callable;
 public class Create implements Callable<Integer> {
     @CommandLine.ParentCommand protected Root parent;
 
+    @CommandLine.Parameters(index = "0", description = "The name of the file.")
+    protected String filename;
+
     @CommandLine.Option(names = {"-t", "--title"}, description = "Title of the task")
     private String title;
 
@@ -33,7 +36,7 @@ public class Create implements Callable<Integer> {
         else
             task = new Task(title, description, state);
 
-            fileWriter fw = new fileWriter(parent.filename);
+            fileWriter fw = new fileWriter(filename);
         try{
             fw.writeFile(task, true);
             System.out.println("Task successfully created.");

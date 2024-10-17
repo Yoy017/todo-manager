@@ -10,10 +10,13 @@ import java.util.concurrent.Callable;
 public class NewList implements Callable<Integer> {
     @CommandLine.ParentCommand protected Root parent;
 
+    @CommandLine.Parameters(index = "0", description = "The name of the file.")
+    protected String filename;
+
     @Override
     public Integer call() {
-        fileWriter fw = new fileWriter(parent.filename);
-        fw.createFileAndDirectory(parent.filename);
+        fileWriter fw = new fileWriter(filename);
+        fw.createFileAndDirectory(filename);
         return 0;
     }
 }

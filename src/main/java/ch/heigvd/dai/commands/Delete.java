@@ -16,12 +16,15 @@ import java.util.concurrent.Callable;
 public class Delete implements Callable<Integer> {
     @CommandLine.ParentCommand protected Root parent;
 
+    @CommandLine.Parameters(index = "0", description = "The name of the file.")
+    protected String filename;
+
     @CommandLine.Option(names = {"-id"}, description = "id of the task", required = true)
     private int id;
 
     @Override
     public Integer call() {
-        fileReader fi = new fileReader(parent.filename);
+        fileReader fi = new fileReader(filename);
         Vector<Task> tasks;
         try{
             tasks = fi.getAllTask();
@@ -54,7 +57,7 @@ public class Delete implements Callable<Integer> {
 
         tasks.remove(id);
 
-        fileWriter fo = new fileWriter(parent.filename);
+        fileWriter fo = new fileWriter(filename);
         fo.overwriteTasks(tasks);
         System.out.println("Task " + id + " successfully deleted.");
         return 0;

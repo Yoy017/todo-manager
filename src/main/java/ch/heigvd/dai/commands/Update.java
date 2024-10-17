@@ -15,6 +15,9 @@ import java.util.concurrent.Callable;
 public class Update implements Callable<Integer> {
     @CommandLine.ParentCommand protected Root parent;
 
+    @CommandLine.Parameters(index = "0", description = "The name of the file.")
+    protected String filename;
+
     @CommandLine.Option(names = {"-id"}, description = "ID of the task to update", required = true)
     private int id;
 
@@ -29,7 +32,7 @@ public class Update implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        fileReader fi = new fileReader(parent.filename);
+        fileReader fi = new fileReader(filename);
         Vector<Task> tasks;
         try{
             tasks = fi.getAllTask();
@@ -64,7 +67,7 @@ public class Update implements Callable<Integer> {
         if(state != null)
             taskToUpdate.state = state;
 
-        fileWriter fo = new fileWriter(parent.filename);
+        fileWriter fo = new fileWriter(filename);
 
         fo.overwriteTasks(tasks);
 

@@ -18,12 +18,15 @@ import java.util.concurrent.Callable;
 public class ShowTasks implements Callable<Integer> {
     @CommandLine.ParentCommand protected Root parent;
 
+    @CommandLine.Parameters(index = "0", description = "The name of the file.")
+    protected String filename;
+
     @CommandLine.Option(names = {"-s", "--status"}, description = "Select a task by status [PENDING, IN_PROGRESS, DONE]")
     private Status state;
 
     @Override
     public Integer call() {
-        fileReader fi = new fileReader(parent.filename);
+        fileReader fi = new fileReader(filename);
         Vector<Task> tasks;
         try {
             tasks = fi.getAllTask();
