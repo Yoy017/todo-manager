@@ -63,19 +63,19 @@ todo-manager allow user to create tasks in .tdm files.
 For almost every command (except command "showLists"), you will need to write something like :
 
 ```shell
-todo-manager <command> <filename> [OPTIONS]
-```
-with `<command>` being the command you want to use , and `<filename>` being the file you want to write in.
+todo-manager [COMMAND] [OPTIONS] <listname>
+````
+with `[COMMAND]` being the command you want to use , and `<listname>` being the file you want to write in.
 For the list of commands available, see the following section Commands.
 
 
 A .tdm file can be created manually with the "touch" command, or can be created with command
 
 ```shell
-todo-manager newList <filename>
+todo-manager newList <listname>
 ```
 
-The file, filename
+The file, listname
 
 
 ### Commands
@@ -84,17 +84,17 @@ The following section explicits how to use every command todo-manager offers. Du
 run the command + optional argument -h, to get indications on how to use the command. Like :
 
 ```shell
-todo-manager <command> -h 
+todo-manager [COMMAND] -h 
 ```
 
 #### newList
 Used to create a new list. If folder "todoManagerFiles" does not exist yet, it will be created as well
 
 ```shell
-todo-manager newList <filename>
+todo-manager newList <listname>
 ```
 
-Will create a file "filename.tdm" in folder "todoManagerFiles"
+Will create a file "listname.tdm" in folder "todoManagerFiles"
 
 #### showLists
 
@@ -111,10 +111,10 @@ The output will show you every list that you have previously created.
 Create a task in a created list.
 
 ```shell
-todo-manager create <filename>
+todo-manager create <listname>
 ```
 Required arguments :
-- filename : the name of the list (without the .tdm extension)
+- listname : the name of the list (without the .tdm extension)
 
 Options arguments :
 - -t : title of the task
@@ -128,11 +128,11 @@ Options arguments :
 The command lists every task in a given list
 
 ```shell
-todo-manager show <filename>
+todo-manager show <listname>
 ```
 
 Required arguments :
-- filename : the name of the list to see the tasks from (without the .tdm extension)
+- listname : the name of the list to see the tasks from (without the .tdm extension)
 
 Optional arguments :
 - -s : write one status ("PENDING", "IN_PROGRESS", or "DONE") to see only the tasks with this status.
@@ -145,11 +145,11 @@ Delete a task from a list using the id of the task. Id's are not permanent to ta
 "show" command of the file the see which task has what id at the moment.
 
 ```shell
-todo-manager delete <filename> -id idOfTaskToDelete
+todo-manager delete <listname> -id idOfTaskToDelete
 ```
 
 Required arguments :
-- filename : the name of the list to see the tasks from (without the .tdm extension)
+- listname : the name of the list to see the tasks from (without the .tdm extension)
 - -id : id of the task to delete.
 
 Optional arguments :
@@ -161,11 +161,11 @@ Optional arguments :
 Update an already existing task in a given file.
 
 ```shell
-todo-manager update <filename> -id idOfTaskToUpdate
+todo-manager update <listname> -id idOfTaskToUpdate
 ```
 
 Required arguments :
-- filename : the name of the list to see the tasks from (without the .tdm extension)
+- listname : the name of the list to see the tasks from (without the .tdm extension)
 - -id : id of the task to update.
 
 Optional arguments :
@@ -176,12 +176,19 @@ Optional arguments :
 
 #### subtask
 
+Add a subtask to an existing task 
+
+```shell
+todo-manager subtask <listname> -id parentTaskId -t  subTaskName
+```
+
 Required arguments :
+- -listname : the name of the list to see the tasks from (without the .tdm extension)
+- -id : id of the task to update.
+- -t : new title you want the task to have
 
 Optional arguments :
-
-
-
+- None
 
 ## Contributing
 

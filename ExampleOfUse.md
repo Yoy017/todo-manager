@@ -31,9 +31,9 @@ $ todo-manager create -t "Tuto" -d "The tutorial enjoyer" -s DONE FIRST
 
 A task `TUTO` is added to the list `FIRST`.
 
-You can check that with the command (Show all tasks in the list FIRST) :
+You can check that with the command (Show all tasks in the list FIRST with status "DONE") :
 ```shell
-$ todo-manager show FIRST
+$ todo-manager show -s DONE FIRST
 ```
 
 You can create all the tasks you want in the list. Don't be shy !
