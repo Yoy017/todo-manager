@@ -66,7 +66,7 @@ public class Update implements Callable<Integer> {
             return 0;
         }
 
-        if (id <= 0 || id > tasks.size()) {
+        if (id < 0 || id >= tasks.size()) {
             System.err.println("Error: Task ID is out of bounds. It should be between 0 and " + tasks.size());
             return 1;
         }

@@ -23,7 +23,7 @@ public class fileWriter {
             } else {
 
                 // Écriture de la tâche principale
-                String content = "[" + task.name + (task.description != null ? "{" + task.description + "}" : "{}") + "] [Status: " + task.state.getLabel() + "]\n";
+                String content = "[" + task.name + (task.description != null ? "{" + task.description + "}" : "{}") + "] [" + task.state.getLabel() + "]\n";
                 bw.write(content);
 
                 // Écriture des sous-tâches
@@ -70,14 +70,25 @@ public class fileWriter {
         }
     }
 
+    // Cette méthode réécrit tout le fichier
     public void overwriteTasks(Vector<Task> tasks) {
-        // Cette méthode réécrit tout le fichier
-        for (int i = 0; i <= tasks.size(); ++i) {
-            try{
-                writeFile(tasks.size() == 0 ? null : tasks.elementAt(i), i != 0); // append = false pour la première tâche, true ensuite
+        if (tasks.size() == 0) {
+            // Si la liste est vide, on efface le contenu du fichier
+            try {
+                writeFile(null, false);
             } catch (FileNotFoundException e) {
-                break;
+                e.printStackTrace();
+            }
+        } else {
+            // Sinon, on réécrit toutes les tâches comme d'habitude
+            for (int i = 0; i < tasks.size(); ++i) {
+                try {
+                    writeFile(tasks.elementAt(i), i != 0);
+                } catch (FileNotFoundException e) {
+                    break;
+                }
             }
         }
+
     }
 }
