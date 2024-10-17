@@ -12,6 +12,8 @@ import picocli.CommandLine;
                 ShowTasks.class,
                 Update.class,
                 Subtask.class,
+                NewList.class,
+                ShowLists.class
         },
         scope = CommandLine.ScopeType.INHERIT,
         mixinStandardHelpOptions = true)
