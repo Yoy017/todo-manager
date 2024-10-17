@@ -240,11 +240,6 @@ Required arguments :
 Optional arguments :
 - None
 
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code
-of conduct, and the process for submitting pull requests to us.
-
 ## Authors
 - Yoann Changanaqui yoann.changanaqui@heig-vd.ch
 - Camille Theubet camille.theubet@heig-vd.ch
