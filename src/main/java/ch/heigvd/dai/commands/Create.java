@@ -30,8 +30,6 @@ public class Create implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        long start = System.currentTimeMillis();
-
         // Vérifier si le répertoire todoManagerList existe
         Path dir = Paths.get("todoManagerList");
         if (!Files.exists(dir)) {
@@ -66,13 +64,7 @@ public class Create implements Callable<Integer> {
         } catch (FileNotFoundException e) {
             System.err.println("Error: The specified list file \"" + filename + "\" cannot be found.");
             return 1;
-        } catch (IOException e) {
-            System.err.println("Error writing to the file: " + e.getMessage());
-            return 1;
         }
-
-        long end = System.currentTimeMillis();
-        System.out.println("Execution time: " + (end - start) + "ms");
         return 0;
     }
 }

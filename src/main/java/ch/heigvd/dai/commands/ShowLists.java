@@ -9,8 +9,6 @@ public class ShowLists implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        long start = System.currentTimeMillis();
-
         // Répertoire où sont stockées les listes
         String directoryPath = "todoManagerList/";
         java.nio.file.Path dir = java.nio.file.Paths.get(directoryPath);
@@ -37,9 +35,6 @@ public class ShowLists implements Callable<Integer> {
             System.err.println("Error reading the directory: " + e.getMessage());
             return 1;
         }
-
-        long end = System.currentTimeMillis();
-        System.out.println("Execution time: " + (end - start) + "ms");
         return 0;
     }
 }

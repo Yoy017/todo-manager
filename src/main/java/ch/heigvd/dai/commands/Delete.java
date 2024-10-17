@@ -28,8 +28,6 @@ public class Delete implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        long start = System.currentTimeMillis();
-
         // Vérifier si le répertoire todoManagerList existe
         Path dir = Paths.get("todoManagerList");
         if (!Files.exists(dir)) {
@@ -86,9 +84,6 @@ public class Delete implements Callable<Integer> {
         fileWriter fo = new fileWriter(filename);
         fo.overwriteTasks(tasks);
         System.out.println("Task " + id + " successfully deleted.");
-
-        long end = System.currentTimeMillis();
-        System.out.println("Execution time: " + (end - start) + "ms");
         return 0;
     }
 }
