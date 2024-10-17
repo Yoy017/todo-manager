@@ -65,8 +65,8 @@ For almost every command (except command "showLists"), you will need to write so
 ```shell
 todo-manager <command> <filename> [OPTIONS]
 ```
-with `<command>` being the command you want to use, and `<filename>` being the file you want to write in.
-For the list of commands available, see section Commands.
+with `<command>` being the command you want to use , and `<filename>` being the file you want to write in.
+For the list of commands available, see the following section Commands.
 
 
 A .tdm file can be created manually with the "touch" command, or can be created with command
@@ -76,6 +76,107 @@ todo-manager newList <filename>
 ```
 
 The file, filename
+
+
+### Commands
+
+The following section explicits how to use every command todo-manager offers. During you use of todo-manager, if you have any doubt,
+run the command + optional argument -h, to get indications on how to use the command. Like :
+
+```shell
+todo-manager <command> -h 
+```
+
+#### newList
+Used to create a new list. If folder "todoManagerFiles" does not exist yet, it will be created as well
+
+```shell
+todo-manager newList <filename>
+```
+
+Will create a file "filename.tdm" in folder "todoManagerFiles"
+
+#### showLists
+
+This command will show the locally created lists. This command has to be run without any argument.
+
+Use with : 
+```shell
+todo-manager showLists
+```
+
+The output will show you every list that you have previously created.
+
+#### create
+Create a task in a created list.
+
+```shell
+todo-manager create <filename>
+```
+Required arguments :
+- filename : the name of the list (without the .tdm extension)
+
+Options arguments :
+- -t : title of the task
+- -d : description of the task
+- -s : status of the task. Either "PENDING", "IN_PROGRESS", or "DONE"
+- -h : see the help message of the command
+
+
+#### show
+
+The command lists every task in a given list
+
+```shell
+todo-manager show <filename>
+```
+
+Required arguments :
+- filename : the name of the list to see the tasks from (without the .tdm extension)
+
+Optional arguments :
+- -s : write one status ("PENDING", "IN_PROGRESS", or "DONE") to see only the tasks with this status.
+- -h : see the help message of the command
+- -V : see the version
+
+#### delete
+
+Delete a task from a list using the id of the task. Id's are not permanent to tasks. Make sure to always run a
+"show" command of the file the see which task has what id at the moment.
+
+```shell
+todo-manager delete <filename> -id idOfTaskToDelete
+```
+
+Required arguments :
+- filename : the name of the list to see the tasks from (without the .tdm extension)
+- -id : id of the task to delete.
+
+Optional arguments :
+- -h : see the help message
+- -V : version
+
+#### show
+
+
+Required arguments :
+
+Optional arguments :
+
+#### update
+
+
+Required arguments :
+
+Optional arguments :
+
+#### subtask
+
+Required arguments :
+
+Optional arguments :
+
+
 
 
 ## Contributing
